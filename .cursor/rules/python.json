@@ -1,0 +1,27 @@
+{
+    "python": {
+        "formatting": {
+            "max_line_length": 88,
+            "indent_size": 4,
+            "use_tabs": false
+        },
+        "naming": {
+            "class": "^[A-Z][a-zA-Z0-9]*$",
+            "function": "^[a-z][a-z0-9_]*$",
+            "variable": "^[a-z][a-z0-9_]*$",
+            "constant": "^[A-Z][A-Z0-9_]*$"
+        },
+        "imports": {
+            "order": [
+                "standard_library",
+                "third_party",
+                "local"
+            ],
+            "group_by_package": true
+        },
+        "documentation": {
+            "require_docstrings": true,
+            "docstring_style": "google"
+        }
+    }
+} 

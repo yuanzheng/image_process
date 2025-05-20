@@ -1,0 +1,57 @@
+{
+    "git": {
+        "commit": {
+            "message_format": {
+                "pattern": "^(feat|fix|docs|style|refactor|test|chore)(\\(.+\\))?: .+$",
+                "max_length": 72
+            },
+            "branch_naming": {
+                "pattern": "^(feature|bugfix|hotfix|release)/[a-z0-9-]+$"
+            }
+        },
+        "ignore": {
+            "patterns": [
+                "*.pyc",
+                "__pycache__/",
+                ".DS_Store",
+                "*.log",
+                "extracted_illustrations/*",
+                "generated_pdfs/*",
+                "node_modules/",
+                "target/",
+                "*.class",
+                "*.jar",
+                "*.war",
+                "*.ear",
+                "*.iml",
+                ".idea/",
+                ".vscode/",
+                "dist/",
+                "build/"
+            ]
+        },
+        "workflow": {
+            "require_pull_request": true,
+            "require_code_review": true,
+            "protected_branches": [
+                "main",
+                "master"
+            ],
+            "environments": {
+                "development": {
+                    "branch": "develop",
+                    "auto_deploy": true
+                },
+                "staging": {
+                    "branch": "staging",
+                    "require_approval": true
+                },
+                "production": {
+                    "branch": "main",
+                    "require_approval": true,
+                    "require_tests": true
+                }
+            }
+        }
+    }
+} 

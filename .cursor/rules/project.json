@@ -1,0 +1,76 @@
+{
+    "project": {
+        "structure": {
+            "required_directories": [
+                "extracted_illustrations",
+                "frontend",
+                "backend",
+                "templates/latex",
+                "generated_pdfs"
+            ],
+            "required_files": [
+                "README.md",
+                "LICENSE",
+                ".gitignore",
+                "pom.xml",
+                "package.json"
+            ]
+        },
+        "image_processing": {
+            "supported_formats": [
+                "png",
+                "jpg",
+                "jpeg"
+            ],
+            "max_file_size": "10MB",
+            "output_quality": {
+                "png": {
+                    "compression_level": 6
+                },
+                "jpg": {
+                    "quality": 95
+                }
+            }
+        },
+        "code_quality": {
+            "test_coverage": {
+                "minimum": 80
+            },
+            "complexity": {
+                "max_cognitive_complexity": 15,
+                "max_cyclomatic_complexity": 10
+            }
+        },
+        "dependencies": {
+            "java": {
+                "version": "17",
+                "spring_boot": "3.2.x"
+            },
+            "node": {
+                "version": "18.x",
+                "vue": "3.x",
+                "tailwindcss": "3.x"
+            },
+            "latex": {
+                "required_packages": [
+                    "graphicx",
+                    "amsmath",
+                    "hyperref"
+                ]
+            }
+        },
+        "security": {
+            "authentication": {
+                "type": "jwt",
+                "token_expiration": 3600
+            },
+            "file_upload": {
+                "max_size": "10MB",
+                "allowed_types": [
+                    "image/jpeg",
+                    "image/png"
+                ]
+            }
+        }
+    }
+} 
