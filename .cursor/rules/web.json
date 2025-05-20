@@ -8,12 +8,15 @@
                     "src/views",
                     "src/assets",
                     "src/store",
-                    "src/router"
+                    "src/router",
+                    "src/utils",
+                    "src/api"
                 ],
                 "naming": {
                     "components": "^[A-Z][a-zA-Z0-9]*\\.vue$",
                     "views": "^[A-Z][a-zA-Z0-9]*\\.vue$",
-                    "store_modules": "^[a-z][a-z0-9]*\\.js$"
+                    "store_modules": "^[a-z][a-z0-9]*\\.js$",
+                    "api_modules": "^[a-z][a-z0-9]*\\.js$"
                 }
             },
             "style": {
@@ -23,6 +26,18 @@
                     "primary_color": "#4F46E5",
                     "secondary_color": "#10B981"
                 }
+            },
+            "features": {
+                "image_upload": {
+                    "drag_and_drop": true,
+                    "preview": true,
+                    "max_files": 10,
+                    "supported_formats": ["image/jpeg", "image/png"]
+                },
+                "pdf_preview": {
+                    "enable": true,
+                    "max_size": "10MB"
+                }
             }
         },
         "backend": {
@@ -31,7 +46,10 @@
                 "required_directories": [
                     "src/main/java",
                     "src/main/resources",
-                    "src/test/java"
+                    "src/test/java",
+                    "src/main/java/com/imageprocess/llm",
+                    "src/main/java/com/imageprocess/pdf",
+                    "src/main/java/com/imageprocess/image"
                 ],
                 "package_structure": "com.imageprocess",
                 "layers": [
@@ -39,7 +57,9 @@
                     "service",
                     "repository",
                     "model",
-                    "config"
+                    "config",
+                    "exception",
+                    "util"
                 ]
             },
             "api": {
@@ -49,6 +69,18 @@
                 "error_handling": {
                     "use_global_exception_handler": true,
                     "standard_error_response": true
+                },
+                "endpoints": {
+                    "image": {
+                        "upload": "/images/upload",
+                        "process": "/images/process",
+                        "status": "/images/{id}/status"
+                    },
+                    "pdf": {
+                        "generate": "/pdf/generate",
+                        "download": "/pdf/{id}/download",
+                        "preview": "/pdf/{id}/preview"
+                    }
                 }
             }
         },
@@ -62,26 +94,77 @@
                 "retry_attempts": 3,
                 "rate_limiting": {
                     "requests_per_minute": 60
-                }
+                },
+                "concurrent_requests": 5
             },
             "prompt_templates": {
                 "image_analysis": "analyze_image_template.txt",
                 "latex_generation": "generate_latex_template.txt"
+            },
+            "models": {
+                "deepseek": {
+                    "model_name": "deepseek-vl",
+                    "max_tokens": 4096,
+                    "temperature": 0.7
+                },
+                "gemini": {
+                    "model_name": "gemini-pro-vision",
+                    "max_tokens": 4096,
+                    "temperature": 0.7
+                }
+            },
+            "image_processing": {
+                "max_size": "10MB",
+                "supported_formats": ["image/jpeg", "image/png"],
+                "preprocessing": {
+                    "resize": true,
+                    "max_dimension": 2048,
+                    "compression": true
+                }
             }
         },
         "pdf_generation": {
             "engine": "pdflatex",
             "templates": {
                 "directory": "templates/latex",
-                "default_template": "default.tex"
+                "default_template": "default.tex",
+                "custom_templates": {
+                    "article": "article.tex",
+                    "report": "report.tex",
+                    "book": "book.tex"
+                }
             },
             "output": {
                 "directory": "generated_pdfs",
-                "naming_pattern": "document_{timestamp}.pdf"
+                "naming_pattern": "document_{timestamp}.pdf",
+                "temp_directory": "temp/latex"
             },
             "compilation": {
                 "timeout": 60000,
-                "max_attempts": 3
+                "max_attempts": 3,
+                "cleanup_temp_files": true
+            },
+            "latex_packages": {
+                "required": [
+                    "graphicx",
+                    "amsmath",
+                    "hyperref",
+                    "xcolor",
+                    "geometry",
+                    "fontspec",
+                    "xeCJK"
+                ],
+                "optional": [
+                    "listings",
+                    "algorithm2e",
+                    "tcolorbox"
+                ]
+            },
+            "image_handling": {
+                "max_size": "10MB",
+                "supported_formats": ["png", "jpg", "jpeg"],
+                "compression": true,
+                "dpi": 300
             }
         }
     }

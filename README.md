@@ -6,10 +6,16 @@ and combines it with extracted illustrations (if any) to generate the final PDF.
 
 ## Tech Stack
 
-*   **Backend:** Spring Boot (Java)
-*   **Web Frontend:** Vue.js
+*   **Backend:** Spring Boot 3 + JPA + REST API
+*   **Web Frontend:** Vue 3 + Vite
+*   **Scripts:** Python 3.x + openCV
 *   **LLM Interaction:** HTTP API (DeepSeek/Gemini)
 *   **PDF Generation:** LaTeX (pdflatex command)
+
+## Project Directories
+- `frontend/`：Front-end code
+- `backend/`：Back-end services code
+- `backend/scripts/`：Image processing python scripts
 
 ## Phase 1: Core Backend API & Basic Web Frontend (MVP)
 

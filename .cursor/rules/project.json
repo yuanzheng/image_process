@@ -6,14 +6,19 @@
                 "frontend",
                 "backend",
                 "templates/latex",
-                "generated_pdfs"
+                "generated_pdfs",
+                "temp/latex",
+                "logs"
             ],
             "required_files": [
                 "README.md",
                 "LICENSE",
                 ".gitignore",
                 "pom.xml",
-                "package.json"
+                "package.json",
+                "docker-compose.yml",
+                "Dockerfile.frontend",
+                "Dockerfile.backend"
             ]
         },
         "image_processing": {
@@ -44,32 +49,86 @@
         "dependencies": {
             "java": {
                 "version": "17",
-                "spring_boot": "3.2.x"
+                "spring_boot": "3.2.x",
+                "libraries": [
+                    "spring-boot-starter-web",
+                    "spring-boot-starter-security",
+                    "spring-boot-starter-validation",
+                    "lombok",
+                    "mapstruct",
+                    "openapi-generator"
+                ]
             },
             "node": {
                 "version": "18.x",
                 "vue": "3.x",
-                "tailwindcss": "3.x"
+                "tailwindcss": "3.x",
+                "libraries": [
+                    "axios",
+                    "vue-router",
+                    "pinia",
+                    "pdfjs-dist"
+                ]
             },
             "latex": {
                 "required_packages": [
                     "graphicx",
                     "amsmath",
-                    "hyperref"
-                ]
+                    "hyperref",
+                    "xcolor",
+                    "geometry",
+                    "fontspec",
+                    "xeCJK"
+                ],
+                "engine": "xelatex"
             }
         },
         "security": {
             "authentication": {
                 "type": "jwt",
-                "token_expiration": 3600
+                "token_expiration": 3600,
+                "refresh_token": {
+                    "enabled": true,
+                    "expiration": 604800
+                }
             },
             "file_upload": {
                 "max_size": "10MB",
                 "allowed_types": [
                     "image/jpeg",
                     "image/png"
-                ]
+                ],
+                "virus_scan": true
+            },
+            "api_security": {
+                "rate_limiting": {
+                    "enabled": true,
+                    "requests_per_minute": 60
+                },
+                "cors": {
+                    "enabled": true,
+                    "allowed_origins": ["http://localhost:8080"]
+                }
+            },
+            "llm_api": {
+                "api_key_rotation": true,
+                "key_expiration": 30,
+                "request_signing": true
+            }
+        },
+        "monitoring": {
+            "logging": {
+                "level": "INFO",
+                "format": "json",
+                "retention": "30d"
+            },
+            "metrics": {
+                "enabled": true,
+                "endpoint": "/actuator/prometheus"
+            },
+            "tracing": {
+                "enabled": true,
+                "sampling_rate": 0.1
             }
         }
     }
